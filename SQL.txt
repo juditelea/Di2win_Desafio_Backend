@@ -1,0 +1,72 @@
+CREATE TABLE `desafio-di2win`.`cliente` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(80) NOT NULL,
+  `cpf` VARCHAR(11) NOT NULL,
+  `dataNascimento` VARCHAR(10) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `cpf_UNIQUE` (`cpf` ASC) VISIBLE);
+
+CREATE TABLE `desafio-di2win`.`conta_digital` (
+  `cpf_cliente` VARCHAR(11) NOT NULL,
+  `agencia` VARCHAR(4) NULL,
+  `conta` VARCHAR(12) NULL,
+  `saldo` DECIMAL(10,2) NULL,
+  `bloqueado` TINYINT(1) NULL,
+  PRIMARY KEY (`cpf_cliente`),
+  UNIQUE INDEX `cpf_cliente_UNIQUE` (`cpf_cliente` ASC) VISIBLE,
+  CONSTRAINT `fk_cpf_cliente`
+    FOREIGN KEY (`cpf_cliente`)
+    REFERENCES `desafio-di2win`.`cliente` (`cpf`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+ALTER TABLE `desafio-di2win`.`conta_digital` 
+CHANGE COLUMN `bloqueado` `bloqueado` TINYINT(1) NOT NULL ;
+
+ALTER TABLE `desafio-di2win`.`conta_digital` 
+CHANGE COLUMN `bloqueado` `bloqueado` TINYINT(1) NOT NULL DEFAULT 0 ;
+
+CREATE TABLE `desafio-di2win`.`movimentacao` (
+  `cpf_cliente` VARCHAR(11) NOT NULL,
+  `data_movimentacao` DATETIME NOT NULL,
+  `valor` DECIMAL(10,2) NOT NULL,
+  `debito_credito` VARCHAR(1) NOT NULL,
+  CONSTRAINT `fk_mov_cpf_cliente`
+    FOREIGN KEY (`cpf_cliente`)
+    REFERENCES `desafio-di2win`.`conta_digital` (`cpf_cliente`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+ALTER TABLE `desafio-di2win`.`movimentacao` 
+ADD COLUMN `saldo_anterior` DECIMAL(10,2) NOT NULL AFTER `valor`,
+ADD COLUMN `saldo_atual` DECIMAL(10,2) NOT NULL AFTER `saldo_anterior`;
+
+
+
+INSERT INTO `desafio-di2win`.`cliente` (`nome`, `cpf`, `dataNascimento`) VALUES ('Maria', '11419231065', '08/02/2001');
+INSERT INTO `desafio-di2win`.`cliente` (`nome`, `cpf`, `dataNascimento`) VALUES ('Judite', '31932991468', '09/11/1954');
+INSERT INTO `desafio-di2win`.`cliente` (`nome`, `cpf`, `dataNascimento`) VALUES ('Pedro', '14769630026', '31/12/1999');
+
+
+import java.util.Scanner;
+            // importanto a classe "ValidaCPF" do pacote "meuPacote"
+        import meuPacote.ValidaCPF;
+
+        public class Exemplo {
+
+          public static void main(String[] args) {
+            Scanner ler = new Scanner(System.in);
+
+            String CPF;
+
+            System.out.printf("Informe um CPF: ");
+            CPF = ler.next();
+
+            System.out.printf("\nResultado: ");
+                // usando os metodos isCPF() e imprimeCPF() da classe "ValidaCPF"
+            if (ValidaCPF.isCPF(CPF) == true)
+               System.out.printf("%s\n", ValidaCPF.imprimeCPF(CPF));
+            else System.out.printf("Erro, CPF invalido !!!\n");
+            }
+        }
+}
