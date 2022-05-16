@@ -6,8 +6,8 @@ public class ContaDigital {
 	private String agencia;
 	private String conta;
 	private double saldo;
-	private boolean bloqueado;
-	public ContaDigital(String cpf_cliente, String agencia, String conta, double saldo, boolean bloqueado) {
+	private String bloqueado;
+	public ContaDigital(String cpf_cliente, String agencia, String conta, double saldo, String bloqueado) {
 		super();
 		this.cpf_cliente = cpf_cliente;
 		this.agencia = agencia;
@@ -39,10 +39,10 @@ public class ContaDigital {
 	public void setSaldo(double saldo) {
 		this.saldo = saldo;
 	}
-	public boolean isBloqueado() {
+	public String getBloqueado() {
 		return bloqueado;
 	}
-	public void setBloqueado(boolean bloqueado) {
+	public void setBloqueado(String bloqueado) {
 		this.bloqueado = bloqueado;
 	}
 	
