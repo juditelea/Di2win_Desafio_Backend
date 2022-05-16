@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,26 +20,33 @@ import br.com.ce2s.desafio.model.ValidaCPF;
 
 public class Aplicacao {
 
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException, ParseException {
 		
 		Connection conexao = Conexao.getConexao();
 		Scanner entrada = new Scanner(System.in);
 
-		Transacao.listaClientes(conexao);
+		//Transacao.listaClientes(conexao);
 
 		//Transacao.insereCliente(conexao, entrada);
 		
-		//Transacao.insereConta(conexao, entrada);
+		//Transacao.removeCliente(conexao, entrada);
 		
-		//Transacao.listaClientes(conexao);
+		//Transacao.insereConta(conexao, entrada);
 		
 		//Transacao.listaContas(conexao);
 		
-		//Transacao.extratoConta(conexao);
 		
-		Transacao.depositar(conexao, entrada);
+		 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		 Date data_inicial = formatter.parse("04/05/2022"); 
+		 Date data_final = formatter.parse("17/05/2022"); 
+		 Transacao.extratoConta(conexao, "11953475027", data_inicial, data_final);
+		 
 		
-		//Transacao.debitar(conexao, entrada);	
+		//Transacao.depositar(conexao, entrada);
+		
+		//Transacao.sacar(conexao, entrada);	
+		
+		//Transacao.bloqueiaConta(conexao, "11953475027");
 		
 		conexao.close();
 		entrada.close();
